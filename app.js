@@ -25,7 +25,7 @@ app.get("/travelers", function(req, res){
 	Traveler.find({}).populate("bags").exec(function (err, travelers) {
 		 if(err){
 		 	console.log(err)
-		 	res.json({"message": "error"});
+		 	res.json({"message": "get travelers error"});
 		 }else{
 		 	res.json(travelers);
 		 }
@@ -37,7 +37,7 @@ app.post("/travelers", function(req, res){
 	Traveler.create(req.body, function(err, traveler){
 		if(err){
 			console.log(err)
-		 	res.json({"message": "error"});
+		 	res.json({"message": "add traveler error"});
 		}else{
 			res.json(traveler);
 		}
@@ -49,19 +49,33 @@ app.get("/travelers/:id", function(req, res){
 	Traveler.findById(req.params.id).populate("bags").exec(function(err, traveler){
 		if(err){
 			console.log(err)
-		 	res.json({"message": "error"});
+		 	res.json({"message": "get traveler error"});
 		}else{
 			res.json(traveler);
 		}
 	});
 });
 
+//remove traveler by id
+app.delete('/travelers/:id', function(req, res){
+	console.log("delete hit");
+	Traveler.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "delete bag error"});
+		}else{
+			res.json({"message": "traveler removed"});
+		}
+	});
+});
+
+
 //gets bag by id
 app.get("/bag/:id", function(req, res){
 	Bag.findById(req.params.id).populate("owner").exec(function(err, bag){
 		if(err){
 			console.log(err)
-		 	res.json({"message": "error"});
+		 	res.json({"message": "get bag error"});
 		}else{
 			res.json(bag);
 		}
@@ -69,27 +83,18 @@ app.get("/bag/:id", function(req, res){
 });
 
 //adds bag to the system, requires given the ID of the Owner
-app.post("/bag/:id", function(req, res){
-	Traveler.findById(req.params.id, function(err, traveler){
+app.post("/bags", function(req, res){
+	Bag.create(req.body, function(err, bag){
 		if(err){
 			console.log(err)
-		 	res.json({"message": "error"});
+ 			res.json({"message": "bag add error"});
 		}else{
-			Bag.create(req.body, function(err, bag){
-				if(err){
-					console.log(err)
-		 			res.json({"message": "bag add error"});
-				}else{
-					traveler.bags.push(bag);
-					bag.owner.push(traveler);
-					bag.save();
-					traveler.save();
-					res.json(traveler);
-				}
-			})
+			bag.save();
+			res.json(bag);
 		}
-	});
+	})
 });
+
 
 app.get("/", function(req, res){
 	res.send("lol");

@@ -3,13 +3,7 @@ mongoose.Promise = global.Promise;
 
 var bagSchema = new mongoose.Schema({
 	weight: Number,
-	finalDestination: String,
-	owner:[
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Traveler"
-		}
-	]
+	finalDestination: String
 });
 
 module.exports = mongoose.model("Bag", bagSchema);
