@@ -58,16 +58,27 @@ app.get("/travelers/:id", function(req, res){
 
 //remove traveler by id
 app.delete('/travelers/:id', function(req, res){
-	console.log("delete hit");
 	Traveler.findByIdAndRemove(req.params.id, function(err){
 		if(err){
 			console.log(err)
-		 	res.json({"message": "delete bag error"});
+		 	res.json({"message": "delete traveler error"});
 		}else{
 			res.json({"message": "traveler removed"});
 		}
 	});
 });
+
+//edit travler by id
+app.put('/traveler/:id', function(req, res){
+	Traveler.findByIdAndUpdate(req.params.id, req.body, {new:true}, function(err, updatedTravler){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "update traveler error"});
+		}else{
+			res.json(updatedTravler);
+		}
+	})
+})
 
 
 //gets bag by id

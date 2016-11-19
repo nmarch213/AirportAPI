@@ -3,7 +3,7 @@ mongoose.Promise = global.Promise;
 
 // Traveler Schema
 var travelerSchema = new mongoose.Schema({
-	fistName: String,
+	firstName: String,
 	lastName: String,
 	driversLicense: String,
 	address: String,
