@@ -56,6 +56,29 @@ app.get("/travelers/:id", function(req, res){
 	});
 });
 
+//adds bag to the system, requires given the ID of the Owner
+app.post("/bag/:id", function(req, res){
+	Traveler.findById(req.params.id, function(err, traveler){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "error"});
+		}else{
+			Bag.create(req.body, function(err, bag){
+				if(err){
+					console.log(err)
+		 			res.json({"message": "bag add error"});
+				}else{
+					traveler.bags.push(bag);
+					bag.owner.push(traveler);
+					bag.save();
+					traveler.save();
+					res.json(bag, traveler);
+				}
+			})
+		}
+	});
+});
+
 app.get("/", function(req, res){
 	res.send("lol");
 })

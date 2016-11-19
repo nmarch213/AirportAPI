@@ -1,17 +1,15 @@
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-var bagSchema = mongoose.Schema({
+var bagSchema = new mongoose.Schema({
 	weight: Number,
 	finalDestination: String,
-	owner: {
-		id: {
+	owner:[
+		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Traveler"
-		},
-		firstName: String,
-		lastName: String
-	}
+		}
+	]
 });
 
 module.exports = mongoose.model("Bag", bagSchema);
