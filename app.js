@@ -123,9 +123,22 @@ app.post("/bags", function(req, res){
 app.put("/bag/:id", function(req, res){
 	Bag.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, updatedBag){
 		if(err){
-			console.log(err)
+			console.log(err);
+ 			res.json({"message": "bag edit error"});
 		}else{
 			res.json(updatedBag)
+		}
+	});
+});
+
+//delete bag by id
+app.delete("/bag/:id", function(req, res){
+	Bag.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			console.log(err)
+ 			res.json({"message": "bag remove error"});
+		}else{
+			res.json({"message": "bag removed"});
 		}
 	});
 });
