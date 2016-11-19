@@ -75,15 +75,29 @@ app.put('/traveler/:id', function(req, res){
 			console.log(err)
 		 	res.json({"message": "update traveler error"});
 		}else{
+			updatedTravler.bags.push(req.body.bags);
+			updatedTravler.save();
 			res.json(updatedTravler);
 		}
 	})
 })
 
 
+//get bags
+app.get("/bags", function(req, res){
+	Bag.find(function(err, bags){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "get bags error"});
+		}else{
+			res.json(bags);
+		}
+	});
+})
+
 //gets bag by id
 app.get("/bag/:id", function(req, res){
-	Bag.findById(req.params.id).populate("owner").exec(function(err, bag){
+	Bag.findById(req.params.id, function(err, bag){
 		if(err){
 			console.log(err)
 		 	res.json({"message": "get bag error"});
@@ -100,7 +114,6 @@ app.post("/bags", function(req, res){
 			console.log(err)
  			res.json({"message": "bag add error"});
 		}else{
-			bag.save();
 			res.json(bag);
 		}
 	})
