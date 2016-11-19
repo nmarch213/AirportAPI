@@ -56,6 +56,18 @@ app.get("/travelers/:id", function(req, res){
 	});
 });
 
+//gets bag by id
+app.get("/bag/:id", function(req, res){
+	Bag.findById(req.params.id).populate("owner").exec(function(err, bag){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "error"});
+		}else{
+			res.json(bag);
+		}
+	});
+});
+
 //adds bag to the system, requires given the ID of the Owner
 app.post("/bag/:id", function(req, res){
 	Traveler.findById(req.params.id, function(err, traveler){
@@ -72,7 +84,7 @@ app.post("/bag/:id", function(req, res){
 					bag.owner.push(traveler);
 					bag.save();
 					traveler.save();
-					res.json(bag, traveler);
+					res.json(traveler);
 				}
 			})
 		}
