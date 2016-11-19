@@ -12,6 +12,7 @@ mongoose.connect("mongodb://njm24:pass@ds031651.mlab.com:31651/sspdb");
 //Models
 var Traveler = require("./models/traveler.js");
 var Bag = require("./models/bag.js");
+var Flight = require("./models/flight.js");
 
 //Middleware
 app.use(bodyParser.json());
@@ -139,6 +140,30 @@ app.delete("/bag/:id", function(req, res){
  			res.json({"message": "bag remove error"});
 		}else{
 			res.json({"message": "bag removed"});
+		}
+	});
+});
+
+//get all flights
+app.get("/flights", function(req, res){
+	Flight.find({}, function(err, flights){
+		if(err){
+			console.log(err);
+ 			res.json({"message": "show flights error"});
+		}else{
+			res.json(flights)
+		}
+	});
+});
+
+//add new flight
+app.post("/flights", function(req, res){
+	Flight.create(req.body, function(err, flight){
+		if(err){
+			console.log(err);
+ 			res.json({"message": "add flight error"});
+		}else{
+			res.json(flight);
 		}
 	});
 });
