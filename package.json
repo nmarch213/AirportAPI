@@ -1,0 +1,11 @@
+{
+  "name": "paapi",
+  "version": "1.0.0",
+  "description": "A small airline called \"Pensacola Air\" has asked you to set up an API to help them track their baggage.  Apps will be built on top of this API for passengers, bag handlers, and agents to interact with the system.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicholas March",
+  "license": "ISC"
+}
