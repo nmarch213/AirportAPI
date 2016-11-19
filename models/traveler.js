@@ -15,7 +15,8 @@ var travelerSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Bag"
 		}
-	]
+	],
+	flightNumber: Number
 });
 
 module.exports = mongoose.model('Traveler', travelerSchema);
