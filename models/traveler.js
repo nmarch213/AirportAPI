@@ -16,7 +16,7 @@ var travelerSchema = new mongoose.Schema({
 			ref: "Bag"
 		}
 	],
-	flightNumber: Number
+	flightNumber: String
 });
 
 module.exports = mongoose.model('Traveler', travelerSchema);

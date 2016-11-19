@@ -71,14 +71,34 @@ app.delete('/travelers/:id', function(req, res){
 
 //edit travler by id
 app.put('/traveler/:id', function(req, res){
-	Traveler.findByIdAndUpdate(req.params.id, req.body, {new:true}, function(err, updatedTravler){
+	var isAlreadyOnFlight = false;
+	Traveler.findByIdAndUpdate(req.params.id, req.body, {new:true}, function(err, updatedTraveler){
 		if(err){
 			console.log(err)
 		 	res.json({"message": "update traveler error"});
 		}else{
-			updatedTravler.bags.push(req.body.bags);
-			updatedTravler.save();
-			res.json(updatedTravler);
+			Flight.findById(updatedTraveler.flightNumber).populate("travelers").exec(function(err, flight){
+				if(err){
+					console.log(err)
+				}else{
+					if(req.body.bags != null){
+						updatedTraveler.bags.push(req.body.bags);
+						updatedTraveler.save();
+					}
+					for (var i = 0; i < flight.travelers.length; i++) {
+						if((flight.travelers[i]._id).equals(updatedTraveler._id)){
+							console.log("on flight");
+							isAlreadyOnFlight = true;
+						}
+					}
+					if(isAlreadyOnFlight == false){
+
+						flight.travelers.push(updatedTraveler);
+						flight.save();
+					}
+					res.json(updatedTraveler);
+				}
+			})
 		}
 	})
 })
@@ -168,6 +188,17 @@ app.post("/flights", function(req, res){
 	});
 });
 
+//show flight by id
+app.get("/flights/:id", function(req, res){
+	Flight.findById(req.params.id).populate("travelers").exec(function(err, flight){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "get flight by id error"});
+		}else{
+			res.json(flight);
+		}
+	});
+})
 
 app.get("/", function(req, res){
 	res.send("lol");

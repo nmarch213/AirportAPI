@@ -3,7 +3,6 @@ mongoose.Promise = global.Promise;
 
 //Flgiht Schema
 var flightSchema = new mongoose.Schema({
-	flightNumber: Number,
 	origin: String,
 	destination: String,
 	travelers:[
