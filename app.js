@@ -119,6 +119,17 @@ app.post("/bags", function(req, res){
 	})
 });
 
+//edit bag by id
+app.put("/bag/:id", function(req, res){
+	Bag.findByIdAndUpdate(req.params.id, req.body, {new: true}, function(err, updatedBag){
+		if(err){
+			console.log(err)
+		}else{
+			res.json(updatedBag)
+		}
+	});
+});
+
 
 app.get("/", function(req, res){
 	res.send("lol");
