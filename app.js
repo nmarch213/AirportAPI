@@ -32,8 +32,21 @@ app.get("/travelers", function(req, res){
 	});
 });
 
+//Add a new traveler
 app.post("/travelers", function(req, res){
 	Traveler.create(req.body, function(err, traveler){
+		if(err){
+			console.log(err)
+		 	res.json({"message": "error"});
+		}else{
+			res.json(traveler);
+		}
+	});
+});
+
+//get traveler by id
+app.get("/travelers/:id", function(req, res){
+	Traveler.find({_id:req.params.id}, function(err, traveler){
 		if(err){
 			console.log(err)
 		 	res.json({"message": "error"});
