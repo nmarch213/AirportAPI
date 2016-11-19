@@ -198,6 +198,30 @@ app.get("/flights/:id", function(req, res){
 			res.json(flight);
 		}
 	});
+});
+
+//delete flight
+app.delete("/flight/:id", function(req, res){
+	Flight.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			console.log(err)
+			res.json({"message": "remove flight error"});
+		}else{
+			res.json({"message": "flight removed"});
+		}
+	});
+});
+
+//edit flight
+app.put("/flight/:id", function(req, res){
+	FLight.findByIdAndUpdate(req.params.id, req.bod, {new: true}, function(err, updatedFlight){
+		if(err){
+			console.log(err);
+ 			res.json({"message": "flight edit error"});
+		}else{
+			res.json(updatedFlight);
+		}
+	})
 })
 
 app.get("/", function(req, res){
