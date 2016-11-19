@@ -22,7 +22,7 @@ app.use(express.static(__dirname + "/public"));
 
 //get all travelers
 app.get("/travelers", function(req, res){
-	Traveler.find({}, function (err, travelers) {
+	Traveler.find({}).populate("bags").exec(function (err, travelers) {
 		 if(err){
 		 	console.log(err)
 		 	res.json({"message": "error"});
@@ -46,15 +46,15 @@ app.post("/travelers", function(req, res){
 
 //get traveler by id
 app.get("/travelers/:id", function(req, res){
-	Traveler.find({_id:req.params.id}, function(err, traveler){
+	Traveler.findById(req.params.id).populate("bags").exec(function(err, traveler){
 		if(err){
 			console.log(err)
 		 	res.json({"message": "error"});
 		}else{
 			res.json(traveler);
 		}
-	})
-})
+	});
+});
 
 app.get("/", function(req, res){
 	res.send("lol");
