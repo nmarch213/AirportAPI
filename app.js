@@ -224,6 +224,30 @@ app.put("/flight/:id", function(req, res){
 	})
 })
 
+//show all bags on flight
+app.get("/flight/:id/bags", function(req, res){
+	var allBags;
+	Traveler.find({flightNumber:req.params.id}).populate("bags").exec(function(err, flightTravelers){
+		if(err){
+			console.log(err);
+ 			res.json({"message": "Flight bags error"});
+		}else{
+			for (var i = 0; i < flightTravelers.length; i++) {
+				Traveler.findById(flightTravelers[i]._id).populate("bags").exec(function(err, travelerBag){
+					if(err){
+
+					}else{
+						console.log(travelerBag);
+						// allBags.push(travelerBag.bags);
+					}
+					
+				});
+			}
+			res.json(allBags);
+		}
+	});
+});
+
 app.get("/", function(req, res){
 	res.send("lol");
 })

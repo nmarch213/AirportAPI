@@ -10,13 +10,13 @@ var travelerSchema = new mongoose.Schema({
 	city: String,
 	state: String,
 	zip: Number,
+	flightNumber: String,
 	bags: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Bag"
 		}
-	],
-	flightNumber: String
+	]
 });
 
 module.exports = mongoose.model('Traveler', travelerSchema);
